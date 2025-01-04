@@ -1,1 +1,1 @@
-web: gunicorn app:app
+export PATH=$PATH:/usr/local/python3/bin && gunicorn app:app
