@@ -205,6 +205,8 @@ def submit_tiktok():
         return send_file(file_path, as_attachment=True)
     except Exception as e:
         return f"Error downloading TikTok video: {str(e)}", 500
-
+    
 if __name__ == "__main__":
-    app.run(debug=False, port=5000, host="penjualan.ddns.net")
+    port = int(os.environ.get("PORT", 8000))  # Mendapatkan port dari variabel lingkungan atau default ke 8000
+    app.run(debug=False, host="0.0.0.0", port=port)  # Mendengarkan di semua alamat IP dan port yang benar
+  
