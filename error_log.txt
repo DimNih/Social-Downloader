@@ -1,0 +1,6 @@
+Error: [0;31mERROR:[0m [youtube] SezFNtFCeQY: Requested format is not available. Use --list-formats for a list of available formats
+Error: [0;31mERROR:[0m [youtube] SezFNtFCeQY: Requested format is not available. Use --list-formats for a list of available formats
+Error: [0;31mERROR:[0m [youtube] SezFNtFCeQY: Requested format is not available. Use --list-formats for a list of available formats
+Error: [0;31mERROR:[0m [youtube] SezFNtFCeQY: Requested format is not available. Use --list-formats for a list of available formats
+Error: [0;31mERROR:[0m [youtube] SezFNtFCeQY: Requested format is not available. Use --list-formats for a list of available formats
+Error: Invalid filter specification 'height<='

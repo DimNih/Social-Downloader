@@ -1,1 +1,1 @@
-web: gunicorn app:app
+web: source /var/www/html/Social-Downloader/myenv/bin/activate && gunicorn app:app

@@ -51,6 +51,8 @@ def download_audio(link):
 
     except Exception as e:
         raise Exception(f"Error downloading audio: {str(e)}")
+    
+    
 def download_video(link):
     # Check if directory exceeds 2 video files and clean up
     video_files = [f for f in os.listdir('videos') if f.endswith('.mp4')]
