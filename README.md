@@ -30,7 +30,7 @@ Ikuti langkah-langkah di bawah ini untuk menyiapkan proyek di lingkungan lokal A
 Pertama, clone repository ke mesin lokal Anda menggunakan Git.
 
 ```bash
-git clone https://github.com/username/Social-Downloader.git
+git clone https://github.com/DimNih/Social-Downloader.git
 cd Social-Downloader
 
 ## Instal Virtual Environment
