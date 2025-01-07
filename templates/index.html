@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    
 
 </head>
 
@@ -58,79 +59,110 @@
         <br>
         <br>
         <br><br><br><br>
-  
-        <section class="button-container">
-            <div class="main-buttons">
-                <button class="button" onclick="showForm('youtube', this)">
-                    <i class="bi bi-youtube"></i> YouTube
-                </button>
-                <button class="button" onclick="showForm('tiktok', this)">
-                    <i class="bi bi-tiktok"></i> TikTok
-                </button>
-                <button class="button" onclick="showForm('instagram', this)">
-                    <i class="bi bi-instagram"></i> Instagram
-                </button>
-                <button class="button" onclick="showForm('facebook', this)">
-                    <i class="bi bi-facebook"></i> Facebook
-                </button>
-            </div>
-            <div id="more-options" style="display: none;">
-                <button class="button" onclick="showForm('convert-file', this)">
-                    <i class="bi bi-file-earmark-pdf"></i> Convert Docx to PDF
-                </button>
-            </div>
-        </section>
 
-        <section class="button-container">
-            <button class="button" id="more-options-button" onclick="toggleDropdown(this)">
-                <i class="bi bi-arrow-right-circle"></i> More Options
-            </button>
-        </section>
-
-        <script>
-function showForm(formType, buttonElement) {
-    console.log(`Show form: ${formType}`); 
-
-    const buttons = document.querySelectorAll('.button-container .button');
-    buttons.forEach(button => button.classList.remove('active'));
-
-    buttonElement.classList.add('active');
-}
-
-function toggleDropdown(buttonElement) {
-    const mainButtons = document.querySelector('.main-buttons');
-    const moreOptions = document.getElementById('more-options');
-    const moreOptionsButton = document.getElementById('more-options-button');
-
-    mainButtons.style.display = 'none';
-    moreOptions.style.display = 'block';
+<main class="center">
     
-    buttonElement.innerHTML = `<i class="bi bi-arrow-left-circle"></i> Less Options`;
+    
+    <div class="wrapper">
+        <!-- Item Menu -->
+        <div class="item menu">
+          <div class="linee linee1"></div>
+          <div class="linee linee2"></div>
+          <div class="linee linee3"></div>
+        </div>
+      
+        <!-- Navigation Items -->
+        <div class="nav-items items1">
+          <button class="button" onclick="showForm('youtube', this)">
+            <i class="bi bi-youtube"></i>
+          </button>
+        </div>
+        <div class="nav-items items2">
+          <button class="button" onclick="showForm('tiktok', this)">
+            <i class="bi bi-tiktok"></i>
+          </button>
+        </div>
+        <div class="nav-items items3">
+          <button class="button" onclick="showForm('instagram', this)">
+            <i class="bi bi-instagram"></i>
+          </button>
+        </div>
+        <div class="nav-items items4">
+          <button class="button" onclick="showForm('facebook', this)">
+            <i class="bi bi-facebook"></i>
+          </button>
+        </div>
 
-    buttonElement.setAttribute("onclick", "toggleBack(this)");
-}
+        <div class="nav-items items5">
+            <button class="button" onclick="showForm('convert-file', this)">
+                <i class="bi bi-file-earmark-pdf"></i>
+            </button>
+        </div>
 
-function toggleBack(buttonElement) {
-    const mainButtons = document.querySelector('.main-buttons');
-    const moreOptions = document.getElementById('more-options');
-    const moreOptionsButton = document.getElementById('more-options-button');
+      </div>
+      
+        
+<script >
+document.querySelector(".menu").addEventListener("click", () => {
+  document.querySelectorAll(".nav-items").forEach((item) => {
+    item.classList.toggle("show-menu");
+  });
+});
 
-    mainButtons.style.display = 'flex';
-    moreOptions.style.display = 'none';
+document.querySelector(".circle")?.addEventListener("click", () => {
+  document.querySelectorAll(".nav-items").forEach((item) => {
+    item.classList.remove("show-menu");
+  });
+});
 
-    buttonElement.innerHTML = `<i class="bi bi-arrow-right-circle"></i> More Options`;
+    </script>
 
-    buttonElement.setAttribute("onclick", "toggleDropdown(this)");
-}
 
-            </script>
+        
+
+        
+        <script>
+        function showForm(formType, buttonElement) {
+            console.log(`Show form: ${formType}`);
+        
+            const buttons = document.querySelectorAll('.button-container .button');
+            buttons.forEach(button => button.classList.remove('active'));
+        
+            buttonElement.classList.add('active');
+        }
+        
+        function toggleDropdown(buttonElement) {
+            const mainButtons = document.querySelector('.main-buttons');
+            const moreOptions = document.getElementById('more-options');
+        
+            mainButtons.style.display = 'none';
+            moreOptions.style.display = 'block';
+        
+            buttonElement.innerHTML = `<i class="bi bi-arrow-left-circle"></i> Less Options`;
+            buttonElement.setAttribute("onclick", "toggleBack(this)");
+        }
+        
+        function toggleBack(buttonElement) {
+            const mainButtons = document.querySelector('.main-buttons');
+            const moreOptions = document.getElementById('more-options');
+        
+            mainButtons.style.display = 'flex';
+            moreOptions.style.display = 'none';
+        
+            buttonElement.innerHTML = `<i class="bi bi-arrow-right-circle"></i> More Options`;
+            buttonElement.setAttribute("onclick", "toggleDropdown(this)");
+        }
+        </script>
+        
 
         <!-- YouTube Form Section -->
         <section id="youtube" class="form-section">
+
             <main class="container my-5">
+                
                 <div class="row justify-content-center">
                     <div class="col-md-8">
-                        <form id="video-form" class="bg-white p-4 shadow rounded">
+                        <form id="video-form" class="form-yt">
                             <h3 class="text-center mb-4">Download YouTube Video</h3>
                             <div class="mb-3">
                                 <input 
@@ -143,24 +175,25 @@ function toggleBack(buttonElement) {
                             </div>
                             <div class="d-flex justify-content-center gap-3">
                               
-                                <button type="button" id="download-video" class="button-download-2 btn-primary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="video">
+                                <button type="button" id="download-video" class="button-download btn-primary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="video">
                                     <div class="button-wrapper">
-                                      <div class="text">Download YouTube Video</div>
-                                      <span class="icon1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                                          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17"></path>
-                                        </svg>
-                                      </span>
+                                        <div class="text">Download Video</div>
+                                        <span class="icon1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M5 7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7zm4 4l4 4m-4-4h8"></path>
+                                            </svg>
+                                        </span>
                                     </div>
-                                  </button>
+                                </button>
                             </div>
+
+                        <div style="color: #ADD8E6; padding: 10px;" id="video-result" class="text-center mt-3"></div>
                         </form>
-                        <div id="video-result" class="text-center mt-3"></div>
 
                         <br>
                         <br>
                         <br>
-                        <form id="audio-form" class="bg-white p-4 shadow rounded">
+                        <form id="audio-form" class="form-yt-v">
                             <h3 class="text-center mb-4">Convert YouTube Video (MP4) to MP3</h3>
                             <div class="mb-3">
                                 <input 
@@ -184,9 +217,10 @@ function toggleBack(buttonElement) {
                       </button>
                                
                             </div>
+
+                    <div  style="color: #ADD8E6; padding: 10px;" id="audio-result" class="text-center mt-3"></div>
                         </form>
                     </div>
-                    <div id="audio-result" class="text-center mt-3"></div>
                 </div>
             </main>
         </section>
@@ -194,69 +228,71 @@ function toggleBack(buttonElement) {
         <br>
         <br>
 
-        <!-- TikTok Form Section -->
         <section id="tiktok" class="form-section">
-            <form id="tiktok-form" class="bg-white p-4 shadow rounded">
-                <h3 class="text-center mb-4">Download TikTok Video</h3>
-                <div class="mb-3">
-                    <input 
-                        type="text" 
-                        id="tiktok-link" 
-                        class="form-control" 
-                        placeholder="Enter TikTok video link" 
-                        name="link" 
-                        required>
+            <main class="container my-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        
+                        <!-- Form for TikTok Video Download -->
+                        <form id="tiktok-form" class="form-tt mb-4">
+                            <h3 class="text-center mb-4">Download TikTok Video</h3>
+                            <div class="mb-3">
+                                <input 
+                                    type="text" 
+                                    id="tiktok-link" 
+                                    class="form-control" 
+                                    placeholder="Enter TikTok video link" 
+                                    name="link" 
+                                    required>
+                            </div>
+                            <div class="d-flex justify-content-center gap-3">
+                                <button type="button" id="download-tiktok" class="button-download btn-primary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="video">
+                                    <div class="button-wrapper">
+                                        <div class="text">Download Video</div>
+                                        <span class="icon1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M5 7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7zm4 4l4 4m-4-4h8"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </button>
+                            </div>
+                            <div style="color: #ADD8E6; padding: 10px;" id="tiktok-result" class="text-center mt-3"></div>
+                        </form>
+                        
+<br>
+<br>
+<br>
+                        <!-- Form for Converting TikTok Video (MP4) to MP3 -->
+                        <form id="tiktok-mp4-to-mp3-form" class="form-tt-v">
+                            <h3 class="text-center mb-4">Convert TikTok Video (MP4) to MP3</h3>
+                            <div class="mb-3">
+                                <input 
+                                    type="text" 
+                                    id="tiktok-mp4-link" 
+                                    class="form-control" 
+                                    placeholder="Enter TikTok MP4 URL" 
+                                    name="tiktok-mp4-link" 
+                                    required>
+                            </div>
+                            <div class="d-flex justify-content-center gap-3">
+                                <button type="button" id="convert-tiktok-mp4-to-mp3" class="button-download btn-secondary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="audio">
+                                    <div class="button-wrapper">
+                                        <div class="text">Convert to MP3</div>
+                                        <span class="icon1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </button>
+                            </div>
+                            <div style="color: #ADD8E6; padding: 10px;" id="tiktok-mp3-result" class="text-center mt-3"></div>
+                        </form>
+                        
+                    </div>
                 </div>
-                <div class="d-flex justify-content-center gap-3">
-
-                    <button type="button" id="download-tiktok" class="button-download-2 btn-primary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="video">
-                        <div class="button-wrapper">
-                          <div class="text">Download TikTok Video</div>
-                          <span class="icon1">
-                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17"></path>
-                            </svg>
-                          </span>
-                        </div>
-                      </button>
-                      
-                </div>
-                <div id="tiktok-result" class="text-center mt-3"></div>
-
-            </form>
-
-
-
-            <br>
-            <br>
-            <br>
-
-            <form id="tiktok-mp4-to-mp3-form" class="bg-white p-4 shadow rounded">
-                <h3 class="text-center mb-4">Convert TikTok Video (MP4) to MP3</h3>
-                <div class="mb-3">
-                    <input 
-                        type="text" 
-                        id="tiktok-mp4-link" 
-                        class="form-control" 
-                        placeholder="Enter TikTok MP4 URL" 
-                        name="tiktok-mp4-link" 
-                        required>
-                </div>
-                <div class="d-flex justify-content-center gap-3">
-                    <button type="button" id="convert-tiktok-mp4-to-mp3" class="button-download btn-secondary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="audio">
-                        <div class="button-wrapper">
-                            <div class="text">Convert to MP3</div>
-                            <span class="icon1">
-                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17"></path>
-                                </svg>
-                            </span>
-                        </div>
-                    </button>
-                    
-                      
-                </div>
-                <div id="tiktok-mp3-result" class="text-center mt-3"></div>
+            </main>
         </section>
         
 
@@ -266,7 +302,8 @@ function toggleBack(buttonElement) {
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <!-- Form for Instagram Video Download -->
-                        <form id="instagram-form" class="bg-white p-4 shadow rounded">
+                        <form id="video-form" class="form-ig mb-4">
+        
                             <h3 class="text-center mb-4">Download Instagram Video</h3>
                             <div class="mb-3">
                                 <input 
@@ -278,9 +315,42 @@ function toggleBack(buttonElement) {
                                     required>
                             </div>
                             <div class="d-flex justify-content-center gap-3">
-                                <button type="button" id="download-instagram" class="button-download-2 btn-primary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="video">
+                                <button type="button" id="download-instagram" class="button-download btn-primary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="video">
                                     <div class="button-wrapper">
-                                        <div class="text">Download Instagram Video</div>
+                                        <div class="text">Download Video</div>
+                                        <span class="icon1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M5 7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7zm4 4l4 4m-4-4h8"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </button>
+                            
+                            </div>
+                            <div style="color: #ADD8E6; padding: 10px;" id="instagram-result" class="text-center mt-3"></div>
+                        </form>
+                        
+                                            
+<br>
+<br>
+<br>
+
+                        <!-- Form for Convert Instagram Video to MP3 -->
+                        <form id="instagram-audio-form" class="form-ig-v">
+                            <h3 class="text-center mb-4">Convert Instagram Video to MP3</h3>
+                            <div class="mb-3">
+                                <input 
+                                    type="text" 
+                                    id="instagram-audio-link" 
+                                    class="form-control" 
+                                    placeholder="Enter Instagram video link" 
+                                    name="link" 
+                                    required>
+                            </div>
+                            <div class="d-flex justify-content-center gap-3">
+                                <button type="button" id="convert-instagram-audio" class="button-download btn-secondary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="audio">
+                                    <div class="button-wrapper">
+                                        <div class="text">Convert to MP3</div>
                                         <span class="icon1">
                                             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
                                                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17"></path>
@@ -289,111 +359,21 @@ function toggleBack(buttonElement) {
                                     </div>
                                 </button>
                             </div>
+                            <div style="color: #ADD8E6; padding: 10px;" id="instagram-audio-result" class="text-center mt-3"></div>
                         </form>
-                        <div id="instagram-result" class="text-center mt-3"></div>
-        
-        
-                     <!-- Form for Convert Instagram Video to MP3 -->
-<form id="instagram-audio-form" class="bg-white p-4 shadow rounded mt-5">
-    <h3 class="text-center mb-4">Convert Instagram Video to MP3</h3>
-    <div class="mb-3">
-        <input 
-            type="text" 
-            id="instagram-audio-link" 
-            class="form-control" 
-            placeholder="Enter Instagram video link" 
-            name="link" 
-            required>
-    </div>
-    <div class="d-flex justify-content-center gap-3">
-        <button type="button" id="convert-instagram-audio" class="button-download btn-secondary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="audio">
-            <div class="button-wrapper">
-                <div class="text">Convert to MP3</div>
-                <span class="icon1">
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17"></path>
-                    </svg>
-                </span>
-            </div>
-        </button>
-    </div>
-</form>
-<div id="instagram-audio-result" class="text-center mt-3"></div>
-
                     </div>
                 </div>
             </main>
         </section>
-
         
-<section id="tiktok" class="form-section">
-    <main class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <!-- Form for TikTok Video Download -->
-                <form id="tiktok-form" class="bg-white p-4 shadow rounded">
-                    <h3 class="text-center mb-4">Download TikTok Video</h3>
-                    <div class="mb-3">
-                        <input 
-                            type="text" 
-                            id="tiktok-link" 
-                            class="form-control" 
-                            placeholder="Enter TikTok video link" 
-                            name="link" 
-                            required>
-                    </div>
-                    <div class="d-flex justify-content-center gap-3">
-                        <button type="button" id="download-tiktok" class="button-download btn-primary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="video">
-                            <div class="button-wrapper">
-                                <div class="text">Download TikTok Video</div>
-                                <span class="icon1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M5 7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7zm4 4l4 4m-4-4h8"></path>
-                                    </svg>
-                                </span>
-                            </div>
-                        </button>
-                    </div>
-                </form>
-                <div id="tiktok-result" class="text-center mt-3"></div>
 
-                <!-- Form for Convert TikTok Video to MP3 -->
-                <form id="tiktok-audio-form" class="bg-white p-4 shadow rounded mt-5">
-                    <h3 class="text-center mb-4">Convert TikTok Video to MP3</h3>
-                    <div class="mb-3">
-                        <input 
-                            type="text" 
-                            id="tiktok-audio-link" 
-                            class="form-control" 
-                            placeholder="Enter TikTok video link" 
-                            name="link" 
-                            required>
-                    </div>
-                    <div class="d-flex justify-content-center gap-3">
-                        <button type="button" id="convert-tiktok-audio" class="button-download btn-secondary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="audio">
-                            <div class="button-wrapper">
-                                <div class="text">Convert to MP3</div>
-                                <span class="icon1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17"></path>
-                                    </svg>
-                                </span>
-                            </div>
-                        </button>
-                    </div>
-                </form>
-                <div id="tiktok-audio-result" class="text-center mt-3"></div>
-            </div>
-        </div>
-    </main>
-</section>
 
 <section id="facebook" class="form-section">
     <main class="container my-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <!-- Form for Facebook Video Download -->
-                <form id="facebook-form" class="bg-white p-4 shadow rounded">
+                <form id="facebook-form" class="form-fb">
                     <h3 class="text-center mb-4">Download Facebook Video</h3>
                     <div class="mb-3">
                         <input 
@@ -407,7 +387,7 @@ function toggleBack(buttonElement) {
                     <div class="d-flex justify-content-center gap-3">
                         <button type="button" id="download-facebook" class="button-download btn-primary d-flex align-items-center gap-2 px-4 py-2 btn-animated" data-tooltip="video">
                             <div class="button-wrapper">
-                                <div class="text">Download Facebook Video</div>
+                                <div class="text">Download Video</div>
                                 <span class="icon1">
                                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
                                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M5 7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7zm4 4l4 4m-4-4h8"></path>
@@ -416,11 +396,17 @@ function toggleBack(buttonElement) {
                             </div>
                         </button>
                     </div>
+
+                <div style="color: #ADD8E6; padding: 10px;" id="facebook-result" class="text-center mt-3"></div>
                 </form>
-                <div id="facebook-result" class="text-center mt-3"></div>
+
+                                    
+<br>
+<br>
+<br>
 
                 <!-- Form for Convert Facebook Video to MP3 -->
-                <form id="facebook-audio-form" class="bg-white p-4 shadow rounded mt-5">
+                <form id="facebook-audio-form" class="form-fb-v">
                     <h3 class="text-center mb-4">Convert Facebook Video to MP3</h3>
                     <div class="mb-3">
                         <input 
@@ -443,8 +429,9 @@ function toggleBack(buttonElement) {
                             </div>
                         </button>
                     </div>
+
+                <div style="color: #ADD8E6; padding: 10px;" id="facebook-audio-result" class="text-center mt-3"></div>
                 </form>
-                <div id="facebook-audio-result" class="text-center mt-3"></div>
             </div>
         </div>
     </main>
@@ -452,7 +439,9 @@ function toggleBack(buttonElement) {
 </section>
 
 
-<section id="convert-file" class="form-section">
+</main>
+
+<section id="convert-file" class="form-section-cv">
     <div class="frame">
         <div class="center">
             <div class="title">
@@ -462,26 +451,74 @@ function toggleBack(buttonElement) {
             <form id="convert-form" action="/convert" method="POST" enctype="multipart/form-data">
                 <div class="dropzone">
                     <img src="http://100dayscss.com/codepen/upload.svg" class="upload-icon" />
-                    <input type="file" name="file" class="upload-input" id="fileInput" required onchange="showFileName()" />
+                    <input 
+                        type="file" 
+                        name="file" 
+                        class="upload-input" 
+                        id="fileInput" 
+                        required 
+                        onchange="showFileName()" 
+                        accept=".docx" />
                 </div>
 
                 <!-- Word logo and file name preview -->
-                <div id="word-logo" class="d-none">
-                    <img src="https://w7.pngwing.com/pngs/565/181/png-transparent-microsoft-word-logo.png" alt="Word Logo" class="word-logo" />
-                    <p id="file-name-preview">No file selected</p>
+                <div id="file-preview" style="margin-top: 10px;">
+                    <img 
+                        id="word-logo" 
+                        src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Microsoft_Word_2013_logo.svg" 
+                        alt="Word Logo" 
+                        class="d-none" 
+                        style="width: 50px; vertical-align: middle;" />
+                    <span id="file-name-preview" style="font-size: 14px; font-weight: bold; color: #333;">
+                        No file selected
+                    </span>
                 </div>
 
                 <button type="submit" class="btn btn-primary" name="uploadbutton">Upload & Convert</button>
             </form>
-
-            <div id="loading-message" class="d-none">Processing...</div>
-            <div id="cancel-conversion" class="d-none">
-                <button type="button" onclick="controller.abort()">Cancel Conversion</button>
+            
+            <!-- Loading message and cancel button with unique IDs -->
+            <div id="loading-message-container" class="d-none">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p>Please wait while we process your file...</p>
             </div>
+
+            <div id="cancel-conversion-container" class="d-none">
+                <button type="button" onclick="controller.abort()" id="cancel-conversion" class="btn btn-danger mt-3">
+                    <i class="bi bi-x-circle"></i> Cancel Conversion
+                </button>
+            </div>
+
+            <!-- Result section -->
             <div id="convert-result"></div>
         </div>
     </div>
 </section>
+
+
+<script>
+    function showFileName() {
+        const fileInput = document.getElementById('fileInput');
+        const wordLogo = document.getElementById('word-logo');
+        const fileNamePreview = document.getElementById('file-name-preview');
+        
+        const file = fileInput.files[0];  
+        if (file) {
+            const fileName = file.name;
+
+            wordLogo.classList.remove('d-none');
+            fileNamePreview.innerHTML = `Selected file: ${fileName}`;
+            fileNamePreview.style.color = 'white'; 
+        } else {
+            wordLogo.classList.add('d-none');
+            fileNamePreview.innerHTML = 'No file selected';
+            fileNamePreview.style.color = 'white'; 
+        }
+    }
+</script>
+
 
 <script>
    function showFileName() {
@@ -500,9 +537,9 @@ function toggleBack(buttonElement) {
 
 function clearFileInput() {
     const fileInput = document.getElementById('fileInput');
-    fileInput.value = '';  // Clear the file input value
-    document.getElementById('word-logo').classList.add('d-none');  // Hide the Word logo and file name preview
-    document.getElementById('file-name-preview').innerHTML = '';  // Clear the file name preview
+    fileInput.value = '';  
+    document.getElementById('word-logo').classList.add('d-none');  
+    document.getElementById('file-name-preview').innerHTML = '';  
 }
 
 function onConversionSuccess() {
@@ -522,19 +559,16 @@ function onConversionSuccess() {
 function showForm(formType, buttonElement) {
     console.log(`Show form: ${formType}`); 
 
-    // Hide all forms first
     const allForms = document.querySelectorAll('section[id]');
     allForms.forEach(form => {
         form.style.display = 'none';
     });
 
-    // Display the selected form
     const selectedForm = document.getElementById(formType);
     if (selectedForm) {
         selectedForm.style.display = 'block';
     }
 
-    // Optional: You can add some active state to buttons if needed
     const buttons = document.querySelectorAll('.button-container .button');
     buttons.forEach(button => button.classList.remove('active'));
     buttonElement.classList.add('active');
@@ -551,6 +585,7 @@ function showForm(formType, buttonElement) {
   
 
 <script>
+
 const resetButton = document.getElementById('reset');
 
 function validateForm() {
@@ -607,30 +642,34 @@ function showSuccessNotification() {
 
 resetButton.addEventListener('click', function () {
     if (validateForm()) {
-        // Clear video and audio links
-        document.getElementById('video-link').value = '';
-        document.getElementById('audio-link').value = '';
-        document.getElementById('tiktok-link').value = '';
-        document.getElementById('tiktok-mp4-link').value = '';
+        clearFormInputs('convert-form');
+        clearFormInputs('facebook-audio-form');
+        clearFormInputs('facebook-form');
+        clearFormInputs('tiktok-audio-form');
+        clearFormInputs('tiktok-form');
+        clearFormInputs('instagram-audio-form');
+        clearFormInputs('instagram-link');
 
-        // Clear Instagram and Facebook links if they exist
-        const instagramLink = document.getElementById('instagram-link');
-        if (instagramLink) instagramLink.value = '';
-
-        const instagramAudioLink = document.getElementById('instagram-audio-link');
-        if (instagramAudioLink) instagramAudioLink.value = '';
-
-        const facebookLink = document.getElementById('facebook-link');
-        if (facebookLink) facebookLink.value = '';
-
-        const facebookAudioLink = document.getElementById('facebook-audio-link');
-        if (facebookAudioLink) facebookAudioLink.value = '';
+        // Clear file input in convert-form
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput) fileInput.value = '';
     }
 });
 
+function clearFormInputs(formId) {
+    const form = document.getElementById(formId);
+    if (form) {
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.value = '';
+        });
+    }
+}
+
+
+// js Menu Button Show/Hide
     </script>
 
-        <!-- Section Hidden/Show -->
         <script>
             function showForm(formId) {
                 document.querySelectorAll('.form-section').forEach(function(section) {
@@ -645,6 +684,7 @@ resetButton.addEventListener('click', function () {
             };
             
         </script>
+
  
 <!-- Home Page Info Section -->
 <section class="home-section">
@@ -670,10 +710,8 @@ resetButton.addEventListener('click', function () {
                     </button>
                     
                 </div>
-            </div>
-        </div>
-    </main>
-    
+            
+
   
     <script>
         let controller;
@@ -1033,14 +1071,12 @@ document.getElementById('cancel-download').addEventListener('click', () => {
     }
 });
 
-
-// Instagram Video Download Logic
 document.getElementById('download-instagram').addEventListener('click', async () => {
-    const link = document.getElementById('instagram-link').value;  // Get the link from the input
-    const resultDiv = document.getElementById('instagram-result');  // Change ID to 'instagram-result'
-    const videoPreviewDiv = document.getElementById('video-preview');  // Keep it as 'video-preview'
-    const loadingMessage = document.getElementById('loading-message');  // Keep it as is
-    const cancelButton = document.getElementById('cancel-download');  // Keep it as is
+    const link = document.getElementById('instagram-link').value;  
+    const resultDiv = document.getElementById('instagram-result'); 
+    const videoPreviewDiv = document.getElementById('video-preview'); 
+    const loadingMessage = document.getElementById('loading-message'); 
+    const cancelButton = document.getElementById('cancel-download');  
 
     resultDiv.innerHTML = '';
     videoPreviewDiv.innerHTML = '';
@@ -1051,10 +1087,20 @@ document.getElementById('download-instagram').addEventListener('click', async ()
     const signal = controller.signal;
 
     try {
-        // Embed Instagram video
-        const videoId = link.split('/')[5].split('?')[0];  // Extract the Instagram video ID
-        const iframeSrc = `https://www.instagram.com/p/${videoId}/embed`;
+        if (!link || !link.includes('instagram.com')) {
+            resultDiv.innerHTML = 'Invalid Instagram link!';
+            return;
+        }
 
+        const urlParts = link.split('/');
+        if (urlParts.length < 6) {
+            resultDiv.innerHTML = 'Invalid Instagram video link format!';
+            return;
+        }
+
+        const videoId = urlParts[5].split('?')[0];  
+
+        const iframeSrc = `https://www.instagram.com/p/${videoId}/embed`;
         const iframe = document.createElement('iframe');
         iframe.setAttribute('width', '480');
         iframe.setAttribute('height', '480');
@@ -1064,10 +1110,9 @@ document.getElementById('download-instagram').addEventListener('click', async ()
         videoPreviewDiv.appendChild(iframe);
 
         setTimeout(() => {
-            videoPreviewDiv.innerHTML = '';  // Clear the video preview after 40 seconds
+            videoPreviewDiv.innerHTML = '';  
         }, 40000);
 
-        // Send the request to download the Instagram video
         const response = await fetch('/submit_instagram_video', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -1114,6 +1159,7 @@ document.getElementById('download-instagram').addEventListener('click', async ()
         loadingMessage.classList.add('d-none');
     }, 10000);
 });
+
 
 
 // Instagram Audio Convert Logic
@@ -1323,36 +1369,34 @@ document.getElementById('convert-facebook-audio').addEventListener('click', asyn
     }, 10000);
 });
 
+
+
 document.getElementById('convert-form').addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent form from submitting normally
+    event.preventDefault(); 
 
     const form = event.target;
     const fileInput = form.querySelector('input[type="file"]');
-    const resultDiv = document.getElementById('convert-result');
-    const loadingMessage = document.getElementById('loading-message');
-    const cancelButton = document.getElementById('cancel-conversion');
+    const resultDiv = document.getElementById('convert-result'); 
+    const loadingMessageContainer = document.getElementById('loading-message-container'); 
+    const cancelButtonContainer = document.getElementById('cancel-conversion-container'); 
 
-    resultDiv.innerHTML = ''; // Clear any previous result
-    loadingMessage.classList.remove('d-none');
-    cancelButton.classList.remove('d-none');
+    resultDiv.innerHTML = ''; 
+    showLoadingState(); 
 
-    // Set up AbortController to allow cancellation
     controller = new AbortController();
     const signal = controller.signal;
 
     try {
         const formData = new FormData();
-        formData.append('file', fileInput.files[0]); // Append the uploaded file to FormData
+        formData.append('file', fileInput.files[0]);
 
-        // Send file to Flask backend via POST request
         const response = await fetch('/convert', {
             method: 'POST',
             body: formData,
-            signal: signal,
+            signal: signal, 
         });
 
         if (response.ok) {
-            // If the conversion was successful, handle the PDF file
             const contentDisposition = response.headers.get('Content-Disposition');
             const titleMatch = contentDisposition && contentDisposition.match(/filename="(.+)"/);
             const title = titleMatch ? titleMatch[1] : 'converted.pdf';
@@ -1362,36 +1406,55 @@ document.getElementById('convert-form').addEventListener('submit', async (event)
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
-            a.download = title; // Set the filename of the downloaded PDF
+            a.download = title; 
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
 
-            resultDiv.innerHTML = 'Conversion Successful! Downloading PDF...';
+            resultDiv.innerHTML = 'Conversion Success! Downloading PDF...'; 
             setTimeout(() => {
-                resultDiv.innerHTML = '';
+                resultDiv.innerHTML = ''; 
             }, 5000);
         } else {
-            // Handle server-side error
             const errorText = await response.text();
-            resultDiv.innerHTML = `Error: ${errorText}`;
+            resultDiv.innerHTML = `Error: ${errorText}`; 
         }
     } catch (error) {
         if (error.name === 'AbortError') {
-            resultDiv.innerHTML = 'Conversion Canceled';
+            resultDiv.innerHTML = 'Conversion Canceled'; 
         } else {
-            resultDiv.innerHTML = `Error: ${error.message}`;
+            resultDiv.innerHTML = `Error: ${error.message}`; 
         }
     } finally {
-        loadingMessage.classList.add('d-none');
-        cancelButton.classList.add('d-none');
+        hideLoadingState(); 
     }
 
     setTimeout(() => {
-        cancelButton.classList.add('d-none');
-        loadingMessage.classList.add('d-none');
+        hideLoadingState();
     }, 10000);
 });
+
+document.getElementById('cancel-conversion').addEventListener('click', () => {
+    if (controller) {
+        controller.abort(); 
+        document.getElementById('convert-result').innerHTML = 'Conversion Canceled';
+        hideLoadingState();
+    }
+});
+
+function showLoadingState() {
+    const loadingMessageContainer = document.getElementById('loading-message-container');
+    const cancelButtonContainer = document.getElementById('cancel-conversion-container');
+    loadingMessageContainer.classList.remove('d-none');
+    cancelButtonContainer.classList.remove('d-none');
+}
+
+function hideLoadingState() {
+    const loadingMessageContainer = document.getElementById('loading-message-container');
+    const cancelButtonContainer = document.getElementById('cancel-conversion-container');
+    loadingMessageContainer.classList.add('d-none');
+    cancelButtonContainer.classList.add('d-none');
+}
 
 
 </script>

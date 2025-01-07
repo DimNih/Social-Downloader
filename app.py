@@ -9,10 +9,16 @@ import time
 import subprocess
 from fpdf import FPDF
 from docx import Document
+from zipfile import BadZipFile
+import zipfile
+from werkzeug.utils import secure_filename
 
 
 
 app = Flask(__name__)
+
+cancel_download = False
+
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -32,10 +38,11 @@ if not os.path.exists('tiktok_videos'):
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-
 def sanitize_filename(filename):
-    """Remove invalid characters from filenames."""
-    return re.sub(r'[<>:"/\\|?*]', '', filename)
+    # Remove invalid characters and trim the filename
+    return re.sub(r'[<>:"/\\|?*]', '_', filename)
+
+
 
 def is_youtube_link(link):
     # Validasi link YouTube
@@ -46,6 +53,11 @@ def download_audio(link):
     if not is_youtube_link(link):
         raise ValueError("Invalid link! Only YouTube links are allowed.")
     
+    # Ensure the 'audios' directory exists
+    if not os.path.exists('audios'):
+        os.mkdir('audios')
+    
+    # Clean up 'audios' folder if it has more than 5 files
     if len(os.listdir('audios')) > 5:
         shutil.rmtree('audios')
         os.mkdir('audios')
@@ -58,6 +70,7 @@ def download_audio(link):
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
+        'keepvideo': True,  # Prevent deletion of the original video file
     }
 
     try:
@@ -66,6 +79,19 @@ def download_audio(link):
             title = sanitize_filename(info['title'])
             file_name = f"audios/{title}.mp3"
 
+            # Ensure the file name is valid
+            file_name = os.path.join('audios', title + '.mp3')
+
+            # Check if the MP4 file exists and convert it
+            mp4_file = f"audios/{title}.webm"
+            if os.path.exists(mp4_file):
+                mp3_path = convert_mp4_to_mp3(mp4_file)
+                return mp3_path
+
+            if not os.path.exists(file_name):
+                raise FileNotFoundError(f"Downloaded file not found: {file_name}")
+
+        # Logging download history
         with open("history.txt", "a") as myfile:
             myfile.write(f"\n{datetime.now().strftime('%d/%m/%y__%H:%M:%S')} --> {link}\n")
 
@@ -73,9 +99,25 @@ def download_audio(link):
 
     except Exception as e:
         raise Exception(f"Error downloading audio: {str(e)}")
-    
 
+
+
+def stop_download():
+    global cancel_download
+    cancel_download = True
+
+def progress_hook(d):
+    global cancel_download
+    if cancel_download:
+        if 'ydl' in globals():
+            ydl.abort()  # This will stop the download immediately
+        raise Exception("Download canceled by the user")
+    if d['status'] == 'finished':
+        print(f"Download finished: {d['filename']}")
+
+# Function to download video
 def download_video(link):
+    global ydl
     if not is_youtube_link(link):
         raise ValueError("Invalid link! Only YouTube links are allowed.")
     
@@ -92,10 +134,13 @@ def download_video(link):
             'key': 'FFmpegVideoConvertor',
             'preferedformat': 'mp4',
         }],
+        'progress_hooks': [progress_hook],  # Hook to monitor progress
     }
 
     try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl_instance:
+            global ydl
+            ydl = ydl_instance
             info = ydl.extract_info(link, download=True)
             title = sanitize_filename(info['title'])
             
@@ -108,6 +153,7 @@ def download_video(link):
 
             file_name = os.path.join('videos', video_file)
 
+        # Logging download history
         with open("history.txt", "a") as myfile:
             myfile.write(f"\n{datetime.now().strftime('%d/%m/%y__%H:%M:%S')} --> {link}\n")
 
@@ -121,8 +167,9 @@ def download_video(link):
 
 
 def is_tiktok_link(link):
-    tiktok_regex = r'(https?://(?:www\.)?tiktok\.com/.+)'
+    tiktok_regex = r'(https?://(?:www\.)?tiktok\.com/[^/]+/[a-zA-Z0-9]+/?|https?://vt\.tiktok\.com/[a-zA-Z0-9]+/?)'
     return bool(re.match(tiktok_regex, link))
+
 
 def download_tiktok_video(link):
     if not is_tiktok_link(link):
@@ -182,19 +229,123 @@ def convert_mp4_to_mp3(mp4_path):
 def is_instagram_link(link):
     return bool(re.match(r'https://www.instagram.com/', link))
 
+def is_instagram_link(link):
+    # Example: Check if the link contains "instagram.com"
+    return isinstance(link, str) and "instagram.com" in link
+
 def download_instagram_video(link):
+    if not isinstance(link, str) or not link.strip():
+        raise ValueError("Invalid link! Please provide a non-empty Instagram link.")
+    
     if not is_instagram_link(link):
         raise ValueError("Invalid link! Only Instagram links are allowed.")
     
-    if os.path.exists('instagram_videos'):
-        if len(os.listdir('instagram_videos')) > 2:
-            shutil.rmtree('instagram_videos')
+    try:
+        # Manage directory
+        if os.path.exists('instagram_videos'):
+            if len(os.listdir('instagram_videos')) > 2:
+                shutil.rmtree('instagram_videos')
+                os.mkdir('instagram_videos')  # Recreate after deletion
+        else:
+            os.mkdir('instagram_videos')
+
+        # YouTube-DL options
+        ydl_opts = {
+            'format': 'best',
+            'outtmpl': 'instagram_videos/%(title)s.%(ext)s',
+            'merge_output_format': 'mp4',
+            'postprocessors': [{
+                'key': 'FFmpegVideoConvertor',
+                'preferedformat': 'mp4',
+            }],
+            'nocheckcertificate': True,
+        }
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(link, download=True)
+            title = info.get('title', 'video')  # Fallback title
+            video_file = next(
+                (f for f in os.listdir('instagram_videos') if f.endswith('.mp4')),
+                None
+            )
+            if not video_file:
+                raise FileNotFoundError("Downloaded MP4 file not found!")
+            return f"instagram_videos/{video_file}"
+    except Exception as e:
+        raise Exception(f"Error downloading Instagram video: {str(e)}")
+
+import os
+import shutil
+import subprocess
+import yt_dlp
+import re
+
+def download_instagram_audio(link):
+    if not is_instagram_link(link):
+        raise ValueError("Invalid link! Only Instagram links are allowed.")
+    
+    audio_folder = 'instagram_audios'
+    if os.path.exists(audio_folder):
+        if len(os.listdir(audio_folder)) > 2:
+            shutil.rmtree(audio_folder)
     else:
-        os.mkdir('instagram_videos')
+        os.mkdir(audio_folder)
+
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'outtmpl': f'{audio_folder}/%(title)s.%(ext)s',
+        'nocheckcertificate': True,
+        'extractaudio': True,
+        'audioquality': 0,
+    }
+
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(link, download=True)
+            title = info['title']
+
+            files_in_directory = os.listdir(audio_folder)
+            audio_file = next((f for f in files_in_directory if f.startswith(title) and f.lower().endswith(('webm', 'm4a'))), None)
+
+            if not audio_file:
+                raise FileNotFoundError(f"Downloaded audio file for title '{title}' not found in the directory.")
+
+            audio_path = os.path.join(audio_folder, audio_file)
+            mp3_file = os.path.join(audio_folder, f"{title}.mp3")
+
+            if os.path.exists(mp3_file):
+                os.remove(mp3_file)
+
+            if not audio_file.endswith('.mp3'):
+                subprocess.run(['ffmpeg', '-i', audio_path, mp3_file], check=True)
+                os.remove(audio_path)
+
+            return mp3_file
+
+    except Exception as e:
+        raise Exception(f"Error downloading Instagram audio: {str(e)}")
+
+def is_instagram_link(link):
+    return bool(re.match(r'https://www.instagram.com/', link))
+
+
+def is_facebook_link(link):
+    return bool(re.match(r'https://www.facebook.com/', link))
+
+def download_facebook_video(link):
+    if not is_facebook_link(link):
+        raise ValueError("Invalid link! Only Facebook links are allowed.")
+    
+    video_folder = 'facebook_videos'
+    if os.path.exists(video_folder):
+        if len(os.listdir(video_folder)) > 2:
+            shutil.rmtree(video_folder)
+    else:
+        os.mkdir(video_folder)
 
     ydl_opts = {
         'format': 'best',
-        'outtmpl': 'instagram_videos/%(title)s.%(ext)s',
+        'outtmpl': f'{video_folder}/%(title)s.%(ext)s',
         'merge_output_format': 'mp4',
         'postprocessors': [{
             'key': 'FFmpegVideoConvertor',
@@ -207,26 +358,27 @@ def download_instagram_video(link):
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(link, download=True)
             title = info['title']
-            video_file = next((f for f in os.listdir('instagram_videos') if f.startswith(title) and f.endswith('.mp4')), None)
+            video_file = next((f for f in os.listdir(video_folder) if f.startswith(title) and f.endswith('.mp4')), None)
             if not video_file:
                 raise FileNotFoundError("Downloaded MP4 file not found!")
-            return f"instagram_videos/{video_file}"
+            return f"{video_folder}/{video_file}"
     except Exception as e:
-        raise Exception(f"downloading Instagram video: {str(e)}")
+        raise Exception(f"Error downloading Facebook video: {str(e)}")
 
-def download_instagram_audio(link):
-    if not is_instagram_link(link):
-        raise ValueError("Invalid link! Only Instagram links are allowed.")
+def download_facebook_audio(link):
+    if not is_facebook_link(link):
+        raise ValueError("Invalid link! Only Facebook links are allowed.")
 
-    if os.path.exists('instagram_audios'):
-        if len(os.listdir('instagram_audios')) > 2:
-            shutil.rmtree('instagram_audios')
+    audio_folder = 'facebook_audios'
+    if os.path.exists(audio_folder):
+        if len(os.listdir(audio_folder)) > 2:
+            shutil.rmtree(audio_folder)
     else:
-        os.mkdir('instagram_audios')
+        os.mkdir(audio_folder)
 
     ydl_opts = {
         'format': 'bestaudio/best',
-        'outtmpl': 'instagram_audios/%(title)s.%(ext)s',
+        'outtmpl': f'{audio_folder}/%(title)s.%(ext)s',
         'nocheckcertificate': True,
     }
 
@@ -234,16 +386,17 @@ def download_instagram_audio(link):
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(link, download=True)
             title = info['title']
-            audio_file = next((f for f in os.listdir('instagram_audios') if f.startswith(title)), None)
+
+            audio_file = next((f for f in os.listdir(audio_folder) if f.startswith(title)), None)
             if not audio_file:
                 raise FileNotFoundError("Downloaded audio file not found!")
 
-            audio_path = os.path.join('instagram_audios', audio_file)
-
-            if os.path.exists(audio_path):
-                os.remove(audio_path)
+            audio_path = os.path.join(audio_folder, audio_file)
 
             mp3_file = audio_path.replace('.m4a', '.mp3').replace('.webm', '.mp3')
+            if os.path.exists(mp3_file):
+                os.remove(mp3_file)
+
             os.system(f"ffmpeg -i \"{audio_path}\" \"{mp3_file}\"")
 
             if os.path.exists(audio_path):
@@ -251,7 +404,9 @@ def download_instagram_audio(link):
 
             return mp3_file
     except Exception as e:
-        raise Exception(f"Error downloading Instagram audio: {str(e)}")
+        raise Exception(f"Error downloading Facebook audio: {str(e)}")
+
+
 
 
 def is_facebook_link(link):
@@ -289,6 +444,7 @@ def download_facebook_video(link):
             return f"facebook_videos/{video_file}"
     except Exception as e:
         raise Exception(f"Error downloading Facebook video: {str(e)}")
+    
 def download_facebook_audio(link):
     if not is_facebook_link(link):
         raise ValueError("Invalid link! Only Facebook links are allowed.")
@@ -331,53 +487,90 @@ def download_facebook_audio(link):
         raise Exception(f"Error downloading Facebook audio: {str(e)}")
 
 def replace_unsupported_characters(text):
+    """Replace unsupported characters with safe alternatives."""
     return text.replace(u"\u2019", "'")
 
+
+def is_valid_docx(file_path):
+    """Check if the uploaded file is a valid and non-corrupted DOCX file."""
+    try:
+        with zipfile.ZipFile(file_path, 'r') as zipf:
+            corrupt_file = zipf.testzip()
+            if corrupt_file:
+                print(f"Corrupted file inside DOCX: {corrupt_file}")
+                return False
+        return True
+    except zipfile.BadZipFile:
+        print("Not a valid DOCX (ZIP) file.")
+        return False
+
+
+def check_images_in_docx(file_path):
+    """Check for corrupted images in a DOCX file."""
+    try:
+        with zipfile.ZipFile(file_path, 'r') as zipf:
+            for file in zipf.namelist():
+                if file.startswith("word/media/"):
+                    with zipf.open(file) as img_file:
+                        img_file.read()  # Attempt to read the image
+        return True
+    except Exception as e:
+        print(f"Corrupted image detected: {e}")
+        return False
+
+
 def convert_word_to_pdf(filename, pdf_filename):
-    # Check if the file extension is .docx
-    if not filename.lower().endswith('.docx'):
-        raise ValueError("Only .docx files are allowed for conversion")
+    """Convert a Word document to a PDF."""
+    try:
+        doc = Document(filename)
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial", size=12)
 
-    # Proceed with the conversion if the file is a .docx
-    doc = Document(filename)
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size=12)
+        for para in doc.paragraphs:
+            clean_text = replace_unsupported_characters(para.text)
+            pdf.multi_cell(0, 10, clean_text)
 
-    for para in doc.paragraphs:
-        clean_text = replace_unsupported_characters(para.text)
-        pdf.multi_cell(0, 10, clean_text)
-
-    pdf.output(pdf_filename)
-    print(f"Conversion successful! The PDF has been saved as {pdf_filename}")
-
+        pdf.output(pdf_filename)
+    except zipfile.BadZipFile:
+        raise ValueError("The uploaded DOCX file is corrupted.")
+    except Exception as e:
+        raise ValueError(f"Error during conversion: {e}")
 
 
 @app.route('/')
 def hello_world():
     return render_template('index.html')
 
-
 @app.route('/convert', methods=['POST'])
 def convert():
+    """Handle file upload and conversion to PDF."""
     if 'file' not in request.files:
-        return 'No file part', 400
+        return "No file part in the request.", 400
+
     file = request.files['file']
-    if file.filename == '':
-        return 'No selected file', 400
-    
     if file and allowed_file(file.filename):
-        # Save the uploaded file
-        filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-        file.save(filename)
-        
-        pdf_filename = filename.rsplit('.', 1)[0] + '.pdf'
-        convert_word_to_pdf(filename, pdf_filename)
-        
-        return send_file(pdf_filename, as_attachment=True)
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
 
-    return 'Invalid file format. Only DOCX is allowed.', 400
+        # Validate DOCX file
+        if not is_valid_docx(file_path):
+            return "The uploaded file is corrupted or not a valid DOCX file.", 400
 
+        if not check_images_in_docx(file_path):
+            return "The uploaded DOCX file contains corrupted images.", 400
+
+        # Convert to PDF
+        try:
+            pdf_filename = filename.rsplit('.', 1)[0] + ".pdf"
+            pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], pdf_filename)
+            convert_word_to_pdf(file_path, pdf_path)
+            return send_file(pdf_path, as_attachment=True)
+        except ValueError as e:
+            return str(e), 400
+    else:
+        return "Invalid file type. Only .docx files are allowed.", 400
 
 
 @app.route('/submit_audio', methods=['POST'])
@@ -387,10 +580,13 @@ def submit_audio():
         return "Error: No URL provided", 400
 
     try:
-        file_path = download_audio(data)
-        return send_file(file_path, as_attachment=True)
+        audio_file_path = download_audio(data)
+        return send_file(audio_file_path, as_attachment=True)
+    
     except Exception as e:
         return f"Error downloading audio: {str(e)}", 500
+
+
 
 @app.route('/submit_tiktok_mp4_to_mp3', methods=['POST'])
 def submit_tiktok_mp4_to_mp3():

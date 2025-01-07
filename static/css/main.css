@@ -38,9 +38,19 @@
 }
 
 @media (max-width: 768px) {
-  .video-preview {
+
+.form-section{
+  margin-right: 200px;
+  place-items: center;
+
+  width: 100px;
+}
+
+  .video-preview
+   {
     padding-bottom: 56.25%;
-    width: 60%;
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -206,6 +216,7 @@ h1{
 }
 
 .button {
+  border-radius: 100px;
   padding: 10px 20px;
   font-size: 16px;
   border: 2px solid #ccc;
@@ -233,7 +244,28 @@ h1{
 
 .form-section {
   display: none;
+  place-items: center;
+  height: 100vh;
+  place-items: center;
+
 }
+
+
+.form-section-cv {
+  display: none;
+  place-items: center;
+  height: 100vh;
+  
+  place-items: center;
+
+}
+
+.form-section-cv.active {
+  display: block;
+  animation: fadeIn 1s ease-in-out forwards;
+
+}
+
 
 .form-section.active {
   display: block;
@@ -344,10 +376,12 @@ h1{
   background-color: #007bff;
   transform: scale(1.05);
 }
+
+
 /* Basic styles for the section */
 .home-section {
   text-align: center;
-  margin-top: 100px;
+  margin-top: -310px;
   border-radius: 8px;
 }
 
@@ -851,25 +885,32 @@ h1{
 .btn:hover {
   background: #ff1493;
 }
-
-#loading-message {
-  font-size: 16px;
-  color: #fff;
-  margin-top: 20px;
+.loading-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
-#cancel-conversion {
-  margin-top: 20px;
+.loading-spinner {
+  margin-right: 10px;
+  animation: spin 1s infinite linear;
 }
 
-#cancel-conversion button {
-  background-color: #ff6347;
-  color: #fff;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
+
 
 #cancel-conversion button:hover {
   background-color: #e53e39;
@@ -880,4 +921,729 @@ h1{
   color: white;
   margin-top: 20px;
   font-weight: bold;
+}
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.main-buttons,
+#more-options {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.button {
+  display: flex;
+  flex: 5;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: none;
+  border-radius: 100px;
+  background-color: #007bff;
+  width: 100px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  max-width: 200px; 
+}
+
+.button-more {
+  display: flex;
+  flex: 5;
+  align-items: center;
+  justify-content: center; 
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  width: 150px;
+  height: 60px; 
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  max-width: 200px; 
+}
+.button-2 {
+  display: flex;
+  flex: 5;
+  align-items: center;
+  justify-content: center; 
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  width: 190px;
+  height: 60px; 
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  max-width: 200px; 
+}
+
+.button i {
+  margin-right: 5px;
+  
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.button.active {
+  background-color: #0056b3;
+}
+
+#more-options-button {
+  margin-top: 20px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 768px) {
+
+  .button {
+      max-width: unset; 
+  }
+}
+
+@media (max-width: 480px) {
+  .button {
+      font-size: 14px;
+      padding: 8px 10px;
+  }
+}
+
+
+/* General Styling for Yt forms */
+.form-yt, .form-yt-v {
+  overflow: hidden;
+  background-color: white;
+  padding: 40px 30px 30px 30px;
+  border-radius: 10px;
+  width: 400px;
+  transform: translate(-15%, -0%);
+
+  transition: transform 300ms, box-shadow 300ms;
+  box-shadow: 5px 10px 10px rgba(0, 128, 128, 0.2);
+}
+
+
+.form-yt::before, .form-yt::after, .form-yt-v::before, .form-yt-v::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-top-left-radius: 40%;
+  border-top-right-radius: 45%;
+  border-bottom-left-radius: 35%;
+  border-bottom-right-radius: 40%;
+  z-index: -1;
+}
+
+.form-yt::before, .form-yt-v::before {
+  left: 40%;
+  bottom: -130%;
+  background-color: rgba(255, 0, 0, 0.8); /* Red color */
+  animation: wawes 6s infinite linear;
+}
+
+.form-yt::after, .form-yt-v::after {
+  left: 35%;
+  bottom: -125%;
+  background-color: rgba(0, 0, 0, 0.5); /* Black color */
+  animation: wawes 7s infinite;
+}
+
+
+.form-yt > input, .form-yt-v > input {
+  font-family: 'Asap', sans-serif;
+  display: block;
+  border-radius: 5px;
+  font-size: 16px;
+  background: white;
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  margin: 15px -10px;
+}
+
+.form-yt > button, .form-yt-v > button {
+  font-family: 'Asap', sans-serif;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  text-transform: uppercase;
+  width: 80px;
+  border: 0;
+  padding: 10px 0;
+  margin-top: 10px;
+  margin-left: -5px;
+  border-radius: 5px;
+  background-color: #ff6347; /* Tomato red */
+  transition: background-color 300ms;
+}
+
+.form-yt > button:hover, .form-yt-v > button:hover {
+  background-color: darken(#ff6347, 5%);
+}
+
+@keyframes wawes {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(360deg);
+  }
+}
+
+
+
+
+
+/* General Styling for tiktok forms */
+.form-tt, .form-tt-v {
+  overflow: hidden;
+  background-color: white;
+  padding: 40px 30px 30px 30px;
+  border-radius: 10px;
+  width: 400px;
+  transform: translate(-15%, -0%);
+
+  transition: transform 300ms, box-shadow 300ms;
+  box-shadow: 5px 10px 10px rgba(0, 128, 128, 0.2);
+}
+
+
+.form-tt::before, .form-tt::after, .form-tt-v::before, .form-tt-v::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-top-left-radius: 40%;
+  border-top-right-radius: 45%;
+  border-bottom-left-radius: 35%;
+  border-bottom-right-radius: 40%;
+  z-index: -1;
+}
+.form-tt::before, .form-tt-v::before {
+  left: 40%;
+  bottom: -130%;
+  background-color: rgba(0, 182, 241, 0.8); /* Cyan color from TikTok logo */
+  animation: wawes 6s infinite linear;
+}
+
+.form-tt::after, .form-tt-v::after {
+  left: 35%;
+  bottom: -125%;
+  background-color: rgba(255, 65, 108, 0.5); /* Magenta color from TikTok logo */
+  animation: wawes 7s infinite;
+}
+
+.form-tt > input, .form-tt-v > input {
+  font-family: 'Asap', sans-serif;
+  display: block;
+  border-radius: 5px;
+  font-size: 16px;
+  background: white;
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  margin: 15px -10px;
+}
+
+.form-tt > button, .form-tt-v > button {
+  font-family: 'Asap', sans-serif;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  text-transform: uppercase;
+  width: 80px;
+  border: 0;
+  padding: 10px 0;
+  margin-top: 10px;
+  margin-left: -5px;
+  border-radius: 5px;
+  background-color: #ff6347; /* Tomato red */
+  transition: background-color 300ms;
+}
+
+.form-tt > button:hover, .form-tt-v > button:hover {
+  background-color: darken(#ff6347, 5%);
+}
+
+
+
+
+/* General Styling for insta forms */
+.form-ig, .form-ig-v {
+  overflow: hidden;
+  background-color: white;
+  padding: 40px 30px 30px 30px;
+  border-radius: 10px;
+  width: 400px;
+  transform: translate(-15%, -0%);
+  place-items: center;
+  transition: transform 300ms, box-shadow 300ms;
+  box-shadow: 5px 10px 10px rgba(0, 128, 128, 0.2);
+}
+
+
+.form-ig::before, .form-ig::after, .form-ig-v::before, .form-ig-v::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-top-left-radius: 40%;
+  border-top-right-radius: 45%;
+  border-bottom-left-radius: 35%;
+  border-bottom-right-radius: 40%;
+  z-index: -1;
+}
+.form-ig::before, .form-ig-v::before {
+  left: 40%;
+  bottom: -130%;
+  background: linear-gradient(45deg, rgba(225, 48, 108, 0.8), rgba(131, 58, 180, 0.8), rgba(66, 103, 178, 0.8)); /* Instagram gradient colors */
+  animation: wawes 6s infinite linear;
+}
+
+.form-ig::after, .form-ig-v::after {
+  left: 35%;
+  bottom: -125%;
+  background: linear-gradient(45deg, rgba(225, 48, 108, 0.5), rgba(131, 58, 180, 0.5), rgba(66, 103, 178, 0.5)); /* Instagram gradient colors */
+  animation: wawes 7s infinite;
+}
+
+
+.form-ig > input, .form-ig-v > input {
+  font-family: 'Asap', sans-serif;
+  display: block;
+  border-radius: 5px;
+  font-size: 16px;
+  background: white;
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  margin: 15px -10px;
+}
+
+.form-ig > button, .form-ig-v > button {
+  font-family: 'Asap', sans-serif;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  text-transform: uppercase;
+  width: 80px;
+  border: 0;
+  padding: 10px 0;
+  margin-top: 10px;
+  margin-left: -5px;
+  border-radius: 5px;
+  background-color: #ff6347; /* Tomato red */
+  transition: background-color 300ms;
+}
+
+.form-ig > button:hover, .form-ig-v > button:hover {
+  background-color: darken(#ff6347, 5%);
+}
+
+
+
+/* General Styling for facebook forms */
+.form-fb, .form-fb-v {
+  overflow: hidden;
+  background-color: white;
+  padding: 40px 30px 30px 30px;
+  border-radius: 10px;
+  width: 400px;
+  transform: translate(-15%, -0%);
+box-shadow: #000000;
+  transition: transform 300ms, box-shadow 300ms;
+  box-shadow: 5px 10px 10px rgba(0, 128, 128, 0.2);
+}
+
+
+.form-fb::before, .form-fb::after, .form-fb-v::before, .form-fb-v::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-top-left-radius: 40%;
+  border-top-right-radius: 45%;
+  border-bottom-left-radius: 35%;
+  border-bottom-right-radius: 40%;
+  z-index: -1;
+}
+.form-fb::before, .form-fb-v::before {
+  left: 40%;
+  bottom: -130%;
+  background-color: rgba(24, 119, 242, 0.8); /* Facebook blue */
+  animation: wawes 6s infinite linear;
+}
+
+.form-fb::after, .form-fb-v::after {
+  left: 35%;
+  bottom: -125%;
+  background-color: rgba(59, 89, 152, 0.5); /* Facebook lighter blue */
+  animation: wawes 7s infinite;
+}
+
+
+.form-fb > input, .form-fb-v > input {
+  font-family: 'Asap', sans-serif;
+  display: block;
+  border-radius: 5px;
+  font-size: 16px;
+  background: white;
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  margin: 15px -10px;
+}
+
+.form-fb > button, .form-fb-v > button {
+  font-family: 'Asap', sans-serif;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  text-transform: uppercase;
+  width: 80px;
+  border: 0;
+  padding: 10px 0;
+  margin-top: 10px;
+  margin-left: -5px;
+  border-radius: 5px;
+  background-color: #ff6347; /* Tomato red */
+  transition: background-color 300ms;
+}
+
+.form-fb > button:hover, .form-fb-v > button:hover {
+  background-color: darken(#ff6347, 5%);
+}
+
+input {
+  display: none;
+}
+
+
+
+.center {
+  place-items: center;
+}
+.wrapper {
+  width: 100px;
+  border-radius: 30px;
+  height: 50px;
+  background: white;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.281);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  z-index: 5;
+  position: relative;
+}
+.item {
+  cursor: pointer;
+}
+.linee {
+  width: 20px;
+  height: 3px;
+  background: rgb(201, 198, 198);
+  margin-top: 3px;
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+.linee1 {
+  width: 15px;
+  transform: translateX(5px);
+}
+.linee1::before {
+  content: "";
+  display: block;
+  transform: translateX(-5px);
+  width: 3px;
+  height: 3px;
+  background: rgb(201, 198, 198);
+  transition: width 0.2s ease 0.1s, transform 0.2s;
+}
+.linee3::after {
+  content: "";
+  display: block;
+  transform: translateX(17px);
+  width: 0px;
+  height: 3px;
+  background: rgb(201, 198, 198);
+  transition: width 0.2s ease 0.1s;
+}
+.linee3 {
+  width: 13px;
+}
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 5px);
+  grid-auto-rows: 5px;
+  grid-gap: 4px;
+  transform: translateY(3px);
+}
+.dot {
+  border: 1px solid rgb(139, 136, 136);
+  border-radius: 50%;
+}
+.add {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgb(201, 198, 198);
+  border: none;
+  position: relative;
+  z-index: 4;
+  transition: all 0.3s ease;
+  outline: none;
+}
+.close {
+  position: relative;
+  left: 35%;
+  z-index: 4;
+  top: 50%;
+}
+.line {
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  background: rgb(255, 255, 255);
+  transition: all 0.2s;
+}
+.line1 {
+  transform: rotate(0deg);
+}
+.line2 {
+  transform: rotate(90deg);
+}
+.search {
+  position: absolute;
+  top: 0;
+  left: 4%;
+  z-index: 0;
+  width: 0px;
+  height: 38px;
+  border-radius: 30px;
+  border: none;
+  color: white;
+  background: rgb(253, 95, 95);
+  box-sizing: border-box;
+  padding-left: 35px;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: none;
+}
+::placeholder {
+  font-weight: bold;
+  color: white;
+}
+.circle {
+  width: 38px;
+  height: 38px;
+  background: rgb(201, 198, 198);
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 3;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.5s;
+}
+.nav-items {
+  width: 38px;
+  height: 38px;
+  background: rgb(246, 54, 54);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.212);
+  transform: scale(0);
+  transition: transform 0.1s cubic-bezier(0.23, -0.47, 0.58, -0.63);
+}
+.nav-items:hover {
+  transform: scale(1.1);
+  transition-timing-function: 0.1s;
+}
+.items1 {
+  top: -95%;
+  left: 30%;
+}
+.items2 {
+  top: -50%;
+  left: -43%;
+  transition-delay: 0.1s;
+}
+.items3 {
+  top: 80%;
+  left: -43%;
+  transition-delay: 0.2s;
+}
+.items4 {
+  top: 120%;
+  left: 30%;
+  transition-delay: 0.3s;
+  
+}
+
+.items5 {
+  top: 85%;
+  left: 105%;
+  transition-delay: 0.3s;
+}
+.box {
+  width: 100%;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  height: 0px;
+  overflow: hidden;
+  background: white;
+  display: grid;
+  grid-gap: 10px;
+  transition: height 0.1s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  z-index: 0;
+}
+.box-line {
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 0s;
+}
+
+.box-line:nth-child(even) {
+  width: 130px;
+}
+.effect {
+  z-index: 3;
+  border-radius: 50%;
+  width: 200vmax;
+  height: 200vmax;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgb(246, 54, 54);
+  transition: transform 0.4s;
+}
+/* toggle classes */
+.box-show {
+  height: 150px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.226);
+  padding: 10px;
+  transition-duration:0.2s;
+}
+.box-line-show {
+  opacity: 1;
+  transition-duration:.1s;
+}
+footer{
+  display:flex;
+ position:fixed;
+  top:90%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  
+}
+footer a{
+color:gray;
+margin-left:30px;
+font-size:1.8rem;}
+a:nth-child(1):hover{
+  color:tomato;
+}
+a:nth-child(2):hover{
+  color:skyblue;
+}
+.color {
+  background: rgb(246, 54, 54);
+}
+.show-menu {
+  transform: scale(1);
+  transition: transform 0.5s cubic-bezier(0.23, -0.47, 0.58, -0.63);
+}
+.go {
+  transform: translateX(-125px);
+}
+.search-focus {
+  width: 180px;
+  left: 20%;
+  top: 1%;
+  height: 38px;
+  background: rgb(253, 95, 95);
+}
+.move {
+  transform: rotate(45deg);
+}
+.mov {
+  transform: rotate(-45deg);
+}
+
+.big {
+  transform: translate(-50%, -50%) scale(1);
+}
+/* hover effect */
+.menu:hover .linee1 {
+  width: 10px;
+  transform: translateX(0px);
+}
+.menu:hover .linee1::before {
+  width: 0px;
+  transform: translateX(0px);
+}
+.menu:hover .linee3 {
+  width: 15px;
+}
+.menu:hover .linee3::after {
+  content: "";
+  display: block;
+  transform: translateX(17px);
+  width: 3px;
+  height: 3px;
+  background: rgb(201, 198, 198);
+  transition: width 0.2s ease 0.1s;
+}
+.gallery:hover .dot1 {
+  animation: jump 0.4s ease 1;
+}
+.gallery:hover .dot2 {
+  animation: jump 0.4s ease 0.1s 1;
+}
+.gallery:hover .dot3 {
+  animation: jump 0.4s ease 0.2s 1;
+}
+.gallery:hover .dot4 {
+  animation: jump 0.4s ease 0.3s 1;
+}
+.gallery:hover .dot5 {
+  animation: jump 0.4s ease 0.4s 1;
+}
+.gallery:hover .dot6 {
+  animation: jump 0.4s ease 0.5s 1;
+}
+@keyframes jump {
+  50% {
+    transform: translateY(-4px);
+    border-color: rgb(117, 117, 117);
+  }
+  100% {
+    transform: translateY(0px);
+    border-color: rgb(119, 118, 118);
+  }
+}
+.close {
+  width: 10px;
 }

@@ -4,3 +4,19 @@ Error: [0;31mERROR:[0m [youtube] SezFNtFCeQY: Requested format is not availabl
 Error: [0;31mERROR:[0m [youtube] SezFNtFCeQY: Requested format is not available. Use --list-formats for a list of available formats
 Error: [0;31mERROR:[0m [youtube] SezFNtFCeQY: Requested format is not available. Use --list-formats for a list of available formats
 Error: Invalid filter specification 'height<='
+Error: Downloaded MP4 file not found!
+Error: Downloaded MP4 file not found!
+Error: Downloaded MP4 file for title 'KU KAN MENGHILANG JAUH DARIMU Pesan Terakhir × Dia Masalalu Mu (Speed Up)' not found!
+Error: Downloaded MP4 file for title 'KU KAN MENGHILANG JAUH DARIMU Pesan Terakhir × Dia Masalalu Mu (Speed Up)' not found!
+Error: Downloaded MP4 file for title 'KU KAN MENGHILANG JAUH DARIMU Pesan Terakhir × Dia Masalalu Mu (Speed Up)' not found!
+Error: Downloaded MP4 file for title 'KU KAN MENGHILANG JAUH DARIMU Pesan Terakhir × Dia Masalalu Mu (Speed Up)' not found!
+Error: Downloaded MP4 file for title 'KU KAN MENGHILANG JAUH DARIMU Pesan Terakhir × Dia Masalalu Mu (Speed Up)' not found!
+Error: Downloaded MP4 file for title 'KU KAN MENGHILANG JAUH DARIMU Pesan Terakhir × Dia Masalalu Mu (Speed Up)' not found!
+Error: Downloaded MP4 file for title 'KU KAN MENGHILANG JAUH DARIMU Pesan Terakhir x Dia Masalalu Mu Speed Up' not found!
+Error: Downloaded MP4 file for title 'KU KAN MENGHILANG JAUH DARIMU Pesan Terakhir x Dia Masalalu Mu Speed Up' not found!
+Error: Downloaded MP4 file for title 'KU KAN MENGHILANG JAUH DARIMU Pesan Terakhir x Dia Masalalu Mu Speed Up' not found!
+Error: Downloaded MP4 file for title 'KU KAN MENGHILANG JAUH DARIMU Pesan Terakhir x Dia Masalalu Mu Speed Up' not found!
+Error: Downloaded MP4 file for title 'Pilihan Hatiku X Cinta Terbaik X Memilih Setia  Speed Up - Tiktok Version ' not found!
+Error: Downloaded MP4 file not found!
+Error: Downloaded MP4 file not found!
+Error: name 'cancel_download' is not defined
